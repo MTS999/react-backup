@@ -1,0 +1,60 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.main-login{
+    background-color: #119be0;
+    height: 100vh;
+    display: flex;
+}
+
+.login-container{
+  background-color: #FFFFFF;
+  width: 55%;
+  height: 100vh;
+  display: inline-block;
+}
+
+.login-info{
+    display: block;
+    margin: auto;
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 50%;
+    height: 100vh;
+}
+
+
+.signup-heading{
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.signup{
+    margin-bottom: 1.5rem;
+    font-size: bold;
+}
+.signup> strong{
+    color: #00A95A;
+}
+
+.forgot-password{
+    margin-left: auto;
+    color: #00A95A;
+   margin-bottom: 1rem;
+}
+
+
+
+.startup-img{
+    width:45%;
+    background-image: url("../images/startup.jpg");
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-position: center;
+}

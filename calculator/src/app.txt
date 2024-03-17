@@ -1,0 +1,245 @@
+
+// import { useState } from 'react'
+import './App.css'
+import React from 'react'
+function App() {
+  const [input, setInput] = React.useState("")
+  const [result, setResult] = React.useState("")
+  const [history, setHistory] = React.useState([])
+  const [historybtn, setHistorybtn] = React.useState(false)
+
+
+
+
+
+
+  function handleInput(value) {
+
+
+    if(input.length===0 && (value==='/' || value==="*")){
+      return
+    }
+    if (value === "%"||value === "+" || value === "-" || value === "*" || value === "/") {
+
+
+
+      if ( input.endsWith ===("%")||input.endsWith("*") || input.endsWith("+") || input.endsWith("/") || input.endsWith("-")) {
+        return
+      }
+    }
+
+    if (value === 'D') {
+      console.log("mts")
+
+      if (input.length === 0) {
+        return
+      }
+      let temp = input.slice(0, -1)
+      setInput(temp)
+      if(temp.length===0){
+        setResult("")
+        return
+      }
+      if (input.endsWith("*") || input.endsWith("+") || input.endsWith("/") || input.endsWith("-")) {
+        let temp1 = input.slice(0, -1)
+        setInput(temp1)
+         calculate(temp1)
+      
+        return
+
+      }
+      calculate(temp)
+      setInput(temp)
+      return
+    }
+    let temp = input + value
+    setInput(temp)
+
+    if (value === "+" || value === "-" || value === "*" || value === "/") {
+      return
+    }
+    calculate(temp)
+
+   if(input.length===0){
+    setResult("")
+   }
+   if(input.length===1){
+    setResult(""+input)
+   }
+
+  }
+
+
+
+  function handleHistory() {
+    if (result !== "") {
+      const obj = {
+        id: history.length,
+        value: input,
+        result: result
+      };
+      setHistory([...history, obj]);
+    }
+
+
+  }
+  function handleKeyDown(event) {
+    const keyValue = event.key;
+
+    if (!isNaN(keyValue) || ['+', '-', '*', '/','%', '.', ].includes(keyValue)) {
+      handleInput(keyValue);
+    } else if (keyValue === 'Delete') {
+      handleEmpty()
+    } else if (keyValue === 'Backspace') {
+      handleInput('D');
+    }
+    else if(keyValue==="Enter"){
+      handleHistory()
+    }
+  }
+
+
+
+  const History = history.map((item) => (
+    <div className='his-main' key={item.id}>
+      <p className='his-title'>{item.value}</p>
+      <p>{item.result}</p>
+    </div>
+  ));
+
+
+
+  function handleEmpty() {
+    setInput("");
+    setResult("")
+  }
+  
+
+  function calculate(expression) {
+    try {
+      const tokens = expression.split(/([-+*/%])/);
+      let stack = [];
+      let currentOperator = null;
+      
+      for (let token of tokens) {
+        if (['+', '-', '*', '/', '%'].includes(token)) {
+          currentOperator = token;
+        } else {
+          const num = parseFloat(token);
+          if (!isNaN(num)) {
+            if (currentOperator === null || stack.length === 0) {
+              stack.push(num);
+            } else {
+              const prevNum = stack.pop();
+              switch (currentOperator) {
+                case '+':
+                  stack.push(prevNum + num);
+                  break;
+                case '-':
+                  stack.push(prevNum - num);
+                  break;
+                case '*':
+                  stack.push(prevNum * num);
+                  break;
+                case '/':
+                  stack.push(prevNum / num);
+                  break;
+                case '%':
+                  stack.push(prevNum % num);
+                  break;
+                default:
+                  break;
+              }
+            }
+          }
+        }
+      }
+      
+      if (stack.length === 1) {
+        setResult(stack[0]);
+      } else {
+        setResult('Invalid Expression');
+      }
+    } catch (error) {
+      setResult('Error');
+    }
+  }
+   
+  return (
+    <>
+
+
+      <div
+        className='container'
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+      >
+        <div className='main'>
+          <div className='input-container'>
+            <input
+
+              type="text"
+              name="input"
+              id="input"
+              value={input}
+              className='input'
+              readOnly
+            />
+          </div>
+          <div className='result-container'>
+
+
+            <p className='result'>{result}</p>
+          </div>
+          <div className='buttons'>
+
+            <div className="row">
+              <button className="btn cream" onClick={handleEmpty} >C</button>
+              <button className="btn cream" onClick={() => handleInput("D")}
+              >D</button>
+              <button className="btn cream" onClick={() => handleInput("%")}>%</button>
+              <button className="btn color-yellow" onClick={() => handleInput("/")}>/</button>
+
+            </div>
+            <div className="row">
+              <button className="btn" onClick={() => handleInput("7")}>7</button>
+              <button className="btn" onClick={() => handleInput("8")}>8</button>
+              <button className="btn" onClick={() => handleInput("9")}>9</button>
+              <button className="btn color-yellow" onClick={() => handleInput("*")} >*</button>
+            </div>
+            <div className="row">
+              <button className="btn" onClick={() => handleInput("4")}>4</button>
+              <button className="btn" onClick={() => handleInput("5")}>5</button>
+              <button className="btn" onClick={() => handleInput("6")}>6</button>
+              <button className="btn color-yellow" onClick={() => handleInput("-")}>-</button>
+            </div>
+            <div className="row">
+              <button className="btn" onClick={() => handleInput("1")}>1</button>
+              <button className="btn" onClick={() => handleInput("2")}>2</button>
+              <button className="btn" onClick={() => handleInput("3")}>3</button>
+              <button className="btn color-yellow" onClick={() => handleInput("+")}>+</button>
+            </div>
+            <div className="row">
+              <button className="btn btn0" onClick={() => handleInput("0")}>0</button>
+              <button className="btn" onClick={() => handleInput(".")}>.</button>
+              <button className="btn color-yellow" onClick={handleHistory}>=</button>
+            </div>
+
+          </div>
+        </div>
+        <div className="history">
+          <button className='history-btn'
+            onClick={() => setHistorybtn(!historybtn)}>History</button>
+
+
+          {historybtn &&
+
+            History
+          }
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default App

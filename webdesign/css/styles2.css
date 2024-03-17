@@ -1,0 +1,146 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 1rem;
+    text-align: center;
+
+}
+
+/* typograpy
+ */
+
+ h1{
+    color: white;
+    font-weight: 300;
+    font-size: 2.5rem;
+    text-align: inherit;
+ }
+ .third,.first{
+    color: #f18119;
+ }
+ .first{
+    
+    order: -1;
+    font-weight: bold;
+    font-size: .645rem;
+}
+.third{
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+
+/* login */
+.heading{
+    margin: 0;
+}
+.today{
+    font-weight: bold;
+    color:#f18119 ;
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+.description{
+    font-size:1.125rem ;
+    margin-bottom: 1.5rem;
+}
+
+.privacy{
+    font-size: .635rem;
+    letter-spacing: 1px;
+}
+
+
+/* layout */
+
+/* display */
+.display{
+
+    height: 50vh;
+    background-image: url("../images/dark-ribs.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.display-contant{
+    height: 100%;
+    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.first{
+    border-top: 10px solid #f18119;
+}
+
+.login{
+/* background-color: #d6a5a5; */
+padding: 2rem .5rem;
+text-align: center;
+margin: auto;
+}
+
+.login-contant{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+}
+
+.form{
+    margin-left:auto ;
+    margin-right:auto ;
+   
+    width: 80%;
+    max-width: 300px;
+}
+
+input,.btn{
+   width: 100%;
+   margin-bottom: 1rem;
+   text-align: inherit;
+   padding: .5em 1.5em;
+   border-radius: 5px;
+   font-size: 1rem;
+}
+
+.btn{
+    width: 100%;
+    /* padding: 0; */
+}
+
+
+@media(min-width:500px){
+
+
+    body{
+        /* font-size: 2rem; */
+        font-size: 1.5rem;
+        display: flex;
+    }
+    .display{
+        height: 100vh;
+        width: 50vw;
+    }
+
+    .login{
+        width: 50vw;
+    }
+
+}

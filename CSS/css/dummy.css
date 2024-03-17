@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1.125rem;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  margin-bottom: 1em;
+  /* width :100% */
+}
+
+/* =================
+Typography
+================= */
+
+h1,h2 {
+  margin: 0;
+}
+.site-title {
+  margin-top: 0;
+}
+a{
+    text-decoration: none;
+}
+
+.subtitle {
+  margin: 0;
+  color: #1794D9;
+}
+nav a{
+    color: #707070;
+}
+
+
+
+
+/* aside */
+
+.widget-title{
+    color: #143774;
+}
+.article-body{
+    /* color: #C2CCE0; */
+}
+
+.article-read-more{
+    font-weight: bold;
+}
+/* =================
+Layout
+================= */
+
+header {
+  background-color: #f8f8f8;
+  padding: 2em 0;
+  text-align: center;
+  margin-bottom: 3em;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 900px;
+  width: 90%;
+  margin: auto;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+/* main articles */
+.article-featured{
+    margin-bottom: 2em;
+}
+.article-recent {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+.article-title{
+    margin: 0px;
+}
+/* aside */
+
+.sidebar-widget {
+  border: 20px solid #efefef;
+  padding: 1.5em;
+  margin-bottom: 2em;
+}
+
+footer {
+  background: #143774;
+  color: white;
+  text-align: center;
+  padding: 3em 0;
+}
+
+@media (min-width: 675px) {
+    header{
+        text-align: left;
+    }
+  .container-big {
+    flex-direction: row;
+  }
+  nav ul {
+    flex-direction: row;
+  }
+  nav li {
+    margin-right: 1em;
+  }
+
+  main {
+    width: 70%;
+  }
+
+  aside {
+    width: 25%;
+    min-width: 200px;
+    margin-left: 1em;
+  }
+  .article-recent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+
+  .article-recent-main{
+    order: 2;
+    width: 68%;
+    margin-left: 30px;
+  }
+  .article-recent-secondary{
+    order: 1;
+     width: 30%;
+  }
+  .article-image {
+    order: -2;
+    min-height: 250px;
+    object-fit: cover;
+    /* object-position: left; */
+}
+
+.article-info {
+    order: -1;
+}
+
+}
