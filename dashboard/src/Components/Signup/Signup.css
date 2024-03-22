@@ -30,7 +30,7 @@
 
 
 .signup-heading{
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     margin-bottom: 1rem;
     font-weight: bold;
 }
@@ -57,4 +57,9 @@
  background-size: cover;
  background-repeat: no-repeat;
  background-position: center;
+}
+
+
+.main-content{
+    
 }

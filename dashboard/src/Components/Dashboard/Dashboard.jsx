@@ -1,44 +1,61 @@
-import React from 'react'
+// import React from 'react'
+import GroupIcon from '@mui/icons-material/Group';
+import DomainIcon from '@mui/icons-material/Domain';
+import DomainDisabledIcon from '@mui/icons-material/DomainDisabled';
+
+
 
 
 function Dashboard() {
   return (
-//     <Box
-//     component="main"
-//     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-//   >
-//     <Toolbar />
-//     <Typography paragraph>
-//       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-//       tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-//       enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-//       imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-//       Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-//       Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-//       adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-//       nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-//       leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-//       feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-//       consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-//       sapien faucibus et molestie ac.
-//     </Typography>
-//     <Typography paragraph>
-//       Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-//       eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-//       neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-//       tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-//       sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-//       tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-//       gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-//       et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-//       tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-//       eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-//       posuere sollicitudin aliquam ultrices sagittis orci a.
-//     </Typography>
-//   </Box>
 
-<div className='mts'><h1>mscknsdkcndskc</h1></div>
-   )
+    <>
+   
+
+      <div className="container margin-top">
+
+        <div className="roe"><h1>Hi Welcome</h1></div>
+        <div className="row mt-500  d-flex align-items-start  justify-content-center    ">
+
+          <div className="col-sm   d-flex justify-content-center align-items-start   ">
+            <div className="card mb-3 text-center" style={{ width: "25rem",height:"13rem" }}>
+              <div className="card-body first-bg-color d-flex justify-content-center align-items-center flex-column">
+              <GroupIcon/>
+                <h4  className="card-text   "  style={{marginTop:"20px",fontSize: '2rem' ,fontWeight:"bold"}}>636</h4>
+                <p className="card-text">Total Users</p>
+              </div>
+            </div>
+
+          </div>
+          <div className="col-sm   d-flex justify-content-center align-items-center  ">
+            <div className="card text-center mb-3" style={{ width: "25rem",height:"13rem" }}>
+              <div className="card-body second-bg-color d-flex justify-content-center align-items-center flex-column">
+              <DomainIcon/>
+                <h4  className="card-text   "  style={{marginTop:"20px",fontSize: '2rem' ,fontWeight:"bold"}}>94</h4>
+                <p className="card-text">Domains</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm  d-flex justify-content-center align-items-center ">
+            <div className="card text-center mb-3  " style={{ width: "25rem",height:"13rem" }}>
+              <div className="card-body third-bg-color d-flex justify-content-center align-items-center flex-column "
+                >
+                <DomainDisabledIcon/>
+                <h4  className="card-text   "  style={{marginTop:"20px",fontSize: '2rem' ,fontWeight:"bold"}}>94</h4>
+                <p className="card-text">Unverified Domains</p>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </>
+
+  )
 }
 
 export default Dashboard
