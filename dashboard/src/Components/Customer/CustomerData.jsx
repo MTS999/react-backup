@@ -1,5 +1,4 @@
-
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,227 +8,35 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import AddCustomer from './AddCustomer';
-
+import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import axios from 'axios';
+import Dialog1 from './Dialog1';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
-  { id: 'firstName', label: 'First Name', minWidth: 170 },
-  { id: 'lastName', label: 'Last Name', minWidth: 170 },
-  {
-    id: 'email',
-    label: 'Email',
-    minWidth: 170,
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'accountStatus',
-    label: 'Account Status',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'subscriptionStatus',
-    label: 'Subscription Status',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'domain',
-    label: 'Domain',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'createdAt',
-    label: 'Created At',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'updatedAt',
-    label: 'Updated At',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: 'action',
-    label: 'Action',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-];
+  { id: 'first_name', label: 'First Name', minWidth: 170 },
+  { id: 'last_name', label: 'Last Name', minWidth: 170 },
+  { id: 'email', label: 'Email', minWidth: 170 },
+  { id: 'account_status', label: 'Account Status', minWidth: 170, align: 'center' },
+  { id: 'subscription_status', label: 'Subscription Status', minWidth: 170, align: 'center' },
+  { id: 'status', label: 'Status', minWidth: 170, align: 'center' },
+  { id: 'total_domains', label: 'Domain', minWidth: 170, align: 'center' },
+  { id: 'createdAt', label: 'Created At', minWidth: 170, align: 'center' },
 
-console.log(columns);
-
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-
-const rows = [
-  // Row 1
-  {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.com',
-    createdAt: '2022-01-01',
-    updatedAt: '2022-03-15',
-    action: 'Edit',
-  },
-  // Row 2
-  {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@example.com',
-    accountStatus: 'Inactive',
-    subscriptionStatus: 'Expired',
-    domain: 'example.org',
-    createdAt: '2021-12-10',
-    updatedAt: '2022-02-28',
-    action: 'Delete',
-  },
-  // Row 3
-  {
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    email: 'alice.johnson@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.net',
-    createdAt: '2022-02-20',
-    updatedAt: '2022-03-20',
-    action: 'View',
-  },
-  {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.com',
-    createdAt: '2022-01-01',
-    updatedAt: '2022-03-15',
-    action: 'Edit',
-  },
-  {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@example.com',
-    accountStatus: 'Inactive',
-    subscriptionStatus: 'Expired',
-    domain: 'example.org',
-    createdAt: '2021-12-10',
-    updatedAt: '2022-02-28',
-    action: 'Delete',
-  },
-  {
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    email: 'alice.johnson@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.net',
-    createdAt: '2022-02-20',
-    updatedAt: '2022-03-20',
-    action: 'View',
-  },
-  // Additional rows...
-  {
-    firstName: 'Michael',
-    lastName: 'Brown',
-    email: 'michael.brown@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.org',
-    createdAt: '2022-01-05',
-    updatedAt: '2022-03-18',
-    action: 'Edit',
-  },
-  {
-    firstName: 'Emily',
-    lastName: 'Davis',
-    email: 'emily.davis@example.com',
-    accountStatus: 'Inactive',
-    subscriptionStatus: 'Expired',
-    domain: 'example.net',
-    createdAt: '2022-02-10',
-    updatedAt: '2022-03-25',
-    action: 'Delete',
-  },
-  {
-    firstName: 'Daniel',
-    lastName: 'Wilson',
-    email: 'daniel.wilson@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.com',
-    createdAt: '2021-12-20',
-    updatedAt: '2022-03-22',
-    action: 'View',
-  },
-  {
-    firstName: 'Olivia',
-    lastName: 'Martinez',
-    email: 'olivia.martinez@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.org',
-    createdAt: '2021-11-15',
-    updatedAt: '2022-03-18',
-    action: 'Edit',
-  },
-  {
-    firstName: 'James',
-    lastName: 'Taylor',
-    email: 'james.taylor@example.com',
-    accountStatus: 'Inactive',
-    subscriptionStatus: 'Expired',
-    domain: 'example.net',
-    createdAt: '2022-02-05',
-    updatedAt: '2022-03-20',
-    action: 'Delete',
-  },
-  {
-    firstName: 'Sophia',
-    lastName: 'Anderson',
-    email: 'sophia.anderson@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.com',
-    createdAt: '2021-12-25',
-    updatedAt: '2022-03-25',
-    action: 'View',
-  },
-  {
-    firstName: 'Alexander',
-    lastName: 'Thomas',
-    email: 'alexander.thomas@example.com',
-    accountStatus: 'Active',
-    subscriptionStatus: 'Subscribed',
-    domain: 'example.net',
-    createdAt: '2022-01-10',
-    updatedAt: '2022-03-18',
-    action: 'Edit',
-  }
+  { id: 'updatedAt', label: 'Updated At', minWidth: 170, align: 'center' },
+  { id: 'action', label: 'Action', minWidth: 170, align: 'center' },
 ];
 
 export default function CustomerData() {
+  const [loader, setloader] = React.useState(false)
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const [customerData, setCustomerData] = React.useState([]);
+  const [refershTable, setRefreshTable] = React.useState(false)
+  const navigate = useNavigate()
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -238,95 +45,144 @@ export default function CustomerData() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const centerStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'flex'
+
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setloader(true)
+    axios.post("http://146.190.164.174:4000/api/customer/get_customers", {}, {
+      headers: {
+        'x-sh-auth': token
+      }
+    })
+      .then(response => {
+        console.log(response.data);
+        setCustomerData(response.data.customer);
+        setloader(false)
+
+      })
+      .catch(error => {
+        console.error('Error fetching customers:', error);
+        setloader(false)
+
+      });
+  }, [refershTable]);
 
   return (
     <>
+    {  loader &&
 
-      {/* <div className="container table-margin"> */}
-
-        <div className="row">
-          <div className='col text-end '>
-
-            <Button
-              variant="contained"
+      <Box sx={{
+        ...centerStyle
+      }}>
+        <CircularProgress />
+      </Box>
+    }
+      <div className="row asdf">
+        <div className='col text-end '>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/addcustomer")}
+            sx={{
+              marginRight: '10px',
+              textTransform: "none"
+            }}
+          >
+            + Add customer
+          </Button>
+        </div>
+      </div>
+      <div className="row mt-4 mb-4 d-flex align-center-center justify-center-end">
+        <div className="top col d-flex justify-content-between">
+          <h3>Customers</h3>
+          <div>
+            <TextField
+              id="outlined-size-small"
+              placeholder="Search customer"
+              size="small"
               sx={{
-                marginRight: '10px',
-                textTransform: "none"
-              }} // Adjust the value as needed
-            > + Add customer </Button>
+                width: '200px',
+                marginRight: "10px"
+              }}
+            />
           </div>
         </div>
-        <div className="row mt-4 mb-4 d-flex align-center-center judtify-center-end">
-          <div className="top col d-flex justify-content-between">
+      </div>
 
-            <h3>Customers</h3>
-
-            <div>
-              <TextField
-                id="outlined-size-small"
-                placeholder="Search customer"
-
-                size="small"
-                sx={{
-                  width: '200px',
-                  marginRight: "10px"
-                }} // Adjust the width as needed
-
-              />
-            </div>
-          </div>
-
-        </div>
-
-        <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: 1, }}>
-          <TableContainer sx={{ maxHeight: 500 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
+      {  !loader &&
+      <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: 1 }}>
+        <TableContainer sx={{ maxHeight: 500 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {customerData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((customer, index) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    <TableCell align="left" style={{ minWidth: columns[0].minWidth }}>{customer.first_name}</TableCell>
+                    <TableCell align="left" style={{ minWidth: columns[1].minWidth }}>{customer.last_name}</TableCell>
+                    <TableCell align="left" style={{ minWidth: columns[2].minWidth }}>{customer.user.email}</TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[3].minWidth }}>
+                      <Chip
+                        label={customer.account_status}
+                        sx={{
+                          backgroundColor: "green"
+                        }}
+                      />
                     </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      {/* </div > */}
+                    <TableCell align="center" style={{ minWidth: columns[4].minWidth }}>{customer.subscription_status}</TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[5].minWidth }}>
+                      <Chip
+                        label={customer.status ? 'active' : 'Non active'}
+                        sx={{
+                          backgroundColor: "green"
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[6].minWidth }}>{customer.total_domains}</TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[7].minWidth }}>{customer.createdAt}</TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[8].minWidth }}>{customer.updatedAt}</TableCell>
+                    <TableCell align="center" style={{ minWidth: columns[9].minWidth }}>
+                      <Dialog1 customerId={customer.user._id}
+                        setRefreshTable={setRefreshTable}
+                        customerData={customer}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={customerData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+
+                      }
     </>
   );
 }

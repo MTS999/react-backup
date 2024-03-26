@@ -7,34 +7,38 @@ import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
-    const [firstName, setFullName] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+
     const handleSignup = () => {
-
-        axios.post("http://localhost:5001/signup", {
-            firstName,
-            lastName,
-            email,
-            phone,
-            password
+        axios.post("http://146.190.164.174:4000/api/admin/signup_admin", {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password,
+            status: true
         })
-            .then(response => {
-            console.log(response)
-            navigate("/")
-
+        .then(response => {
+            console.log(response.data);
+            // Assuming the response structure matches the successful signup response
+            if (response.data.code === 200) {
+                // Signup successful, redirect to homepage or login page
+                navigate("/");
+            } else {
+                // Handle other possible response scenarios
+                console.error("Signup failed:", response.data.message);
+            }
         })
-        .catch (error=>{
-
+        .catch(error => {
             console.error("Error:", error);
-        })
-    }
+            // Handle error scenarios
+        });
+    };
 
-return (
-    <>
+    return (
         <div className="container-fluid">
             <div className="row vh-100">
                 <div className="col-md-7 d-flex align-items-center flex-column vh-100">
@@ -44,9 +48,9 @@ return (
                         <Box sx={{ maxWidth: 400, width: '100%', marginBottom: "15px" }}>
                             <TextField
                                 fullWidth
-                                label="first Name*"
+                                label="First Name*"
                                 value={firstName}
-                                onChange={(e) => setFullName(e.target.value)}
+                                onChange={(e) => setFirstName(e.target.value)}
                                 color="success"
                             />
                         </Box>
@@ -65,15 +69,6 @@ return (
                                 label="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                color="success"
-                            />
-                        </Box>
-                        <Box sx={{ maxWidth: 400, width: '100%', marginBottom: "22px" }}>
-                            <TextField
-                                fullWidth
-                                label="Phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
                                 color="success"
                             />
                         </Box>
@@ -99,8 +94,7 @@ return (
                 </div>
             </div>
         </div>
-    </>
-);
+    );
 };
 
 export default Signup;

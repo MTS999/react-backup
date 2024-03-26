@@ -43,3 +43,10 @@ h1{
 .main-content{
     /* margin-top: 200px; */
 }
+
+.lop{
+    display: block;
+    max-width: 100%;
+    width: 100px;
+    height: 20px;
+}

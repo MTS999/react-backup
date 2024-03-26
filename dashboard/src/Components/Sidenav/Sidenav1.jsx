@@ -106,7 +106,11 @@ function ResponsiveDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex',
+        boxSizing:"border-box"
+        //   width:"100%",
+        //   backgroundColor:"" 
+          }}>
             {/* <CssBaseline /> */}
 
             <AppBar
@@ -114,6 +118,8 @@ function ResponsiveDrawer(props) {
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     ml: { sm: `${drawerWidth}px` },
+                    backgroundColor:"white",
+                    boxShadow: "none"
                 }}
             >
                 <Toolbar>
@@ -122,7 +128,8 @@ function ResponsiveDrawer(props) {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ mr: 2, display: { sm: 'none' }, 
+                    color:"black"}}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -163,14 +170,9 @@ function ResponsiveDrawer(props) {
                 >
                     {drawer}
                 </Drawer>
+                <Toolbar/>
             </Box>
-            {/* <Box
-                component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-            >
-                <Toolbar />
-
-            </Box> */}
+      
             <Outlet />
         </Box>
     );

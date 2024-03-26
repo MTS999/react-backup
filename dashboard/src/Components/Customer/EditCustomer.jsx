@@ -1,29 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-
+import { useLocation } from "react-router-dom";
 import "../Signup/Signup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const AddCustomer = () => {
+const EditCustomer = () => {
 
     const [formData, setFormData] = React.useState({
 
         first_name: "",
         last_name: "",
         email: "",
-        password: "",
         industry_type: '',
-        customer_type: ''
+        profile_image: '',
+        phone_number: ""
     })
     const navigate=useNavigate()
-    // console.log(formData);
+
+    const location = useLocation()
+    const [customerData, setCustomerData] = React.useState(location.state)
+    console.log(formData);
+
     function handleChange(event) {
-        const {name, value} = event.target
+        const { name, value } = event.target
 
         setFormData({
             ...formData,
@@ -31,9 +35,37 @@ const AddCustomer = () => {
         })
 
     }
+    useEffect(() => {
 
-    const  handleSave= () => {
-        axios.post("http://146.190.164.174:4000/api/customer/signup_customer", formData)
+        setFormData({
+            first_name: customerData.first_name,
+            last_name: customerData.last_name,
+            email: customerData.user.email,
+            industry_type: customerData.industry_type,
+            profile_image: customerData.profile_image,
+            phone_number: "",
+        })
+
+
+    }, [location.state,customerData])
+ 
+    
+
+    const handleSave = () => {
+        const token = localStorage.getItem("token");
+
+        axios.put(`http://146.190.164.174:4000/api/customer/edit_customer_by_admin/${customerData.user._id}`, 
+      
+        
+        formData,
+        {
+            headers:{
+                'Content-Type': 'application/json',
+
+                'x-sh-auth': token
+
+            }
+        })
             .then(response => {
                 console.log(response.data); // Handle successful response
             })
@@ -58,10 +90,11 @@ const AddCustomer = () => {
                             <TextField
                                 color="success"
                                 fullWidth
-                                label="Full Name*"
+                                label="First Name*"
                                 id="first_name"
                                 name="first_name"
                                 onChange={handleChange}
+                                value={formData.first_name}
                             />
                         </Box>
                     </div>
@@ -78,6 +111,7 @@ const AddCustomer = () => {
                                 id="last_name"
                                 name="last_name"
                                 onChange={handleChange}
+                                value={formData.last_name}
                             />
                         </Box>
                     </div>
@@ -95,7 +129,9 @@ const AddCustomer = () => {
                                 label="Email"
                                 id="email"
                                 name="email"
-                                onChange={handleChange} />
+                                onChange={handleChange} 
+                                value={formData.email}
+                                />
                         </Box>
                     </div>
 
@@ -107,10 +143,11 @@ const AddCustomer = () => {
                             <TextField
                                 color="success"
                                 fullWidth
-                                label="Password"
-                                id="password"
-                                name="password"
+                                label="Phone Number"
+                                id="phone_number"
+                                name="phone_number"
                                 onChange={handleChange}
+                                value={formData.phone_number}
                             />
                         </Box>
                     </div>
@@ -129,7 +166,8 @@ const AddCustomer = () => {
                                 label="Industry Type"
                                 id="industry_type"
                                 name="industry_type"
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                                value={formData.industry_type} />
                         </Box>
                     </div>
 
@@ -141,10 +179,11 @@ const AddCustomer = () => {
                             <TextField
                                 color="success"
                                 fullWidth
-                                label="Customer Type"
-                                id="customer_type"
-                                name="customer_type"
-                                onChange={handleChange} />
+                                label="Profile Image"
+                                id="profile_image"
+                                name="profile_image"
+                                onChange={handleChange} 
+                                value={formData.profile_image}/>
                         </Box>
                     </div>
 
@@ -154,12 +193,11 @@ const AddCustomer = () => {
                     <div className="col">
 
 
-                        <Button
-                         variant="outlined"
-                          size="small"
-                          onClick={()=>navigate("/customer")}
-
-                          >
+                        <Button 
+                        variant="outlined" 
+                        size="small"
+                         onClick={()=>navigate("/customer")}
+                        >
                             cancel
                         </Button>
                         <Button variant="contained" size="small"
@@ -179,4 +217,4 @@ const AddCustomer = () => {
     );
 };
 
-export default AddCustomer;
+export default EditCustomer;

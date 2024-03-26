@@ -1,0 +1,253 @@
+
+import React, { useEffect } from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import AddCustomer from './AddCustomer';
+import axios from 'axios';
+import Dialog1 from './Dialog1';
+
+
+
+const columns = [
+  { id: 'first_name', label: 'First Name', minWidth: 170 },
+  { id: 'last_name', label: 'Last Name', minWidth: 170 },
+  {
+    id: 'email',
+    label: 'Email',
+    minWidth: 170,
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'account_status',
+    label: 'Account Status',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'subscription_status',
+    label: 'Subscription Status',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'total_domains',
+    label: 'Domain',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'createdAt',
+    label: 'Created At',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'updatedAt',
+    label: 'Updated At',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'action',
+    label: 'Action',
+    minWidth: 170,
+    align: 'right',
+    format: (value) => value.toFixed(2),
+  },
+];
+
+// console.log(columns);
+
+
+
+
+
+
+
+export default function CustomerData() {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [customerData, setCustomerData] = React.useState([])
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  // const auth=
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    axios.post("http://146.190.164.174:4000/api/customer/get_customers", {}, {
+      headers: {
+        'x-sh-auth': token
+      }
+    })
+
+      .then(response => {
+        console.log("mts");
+        console.log(response.data.customer)
+        setCustomerData(response.data.customer || [])
+      })
+      .catch(error => {
+        console.error('Error fetching customers:', error);
+      });
+
+
+  }, [])
+  return (
+    <>
+
+      {/* <div className="container table-margin"> */}
+
+      <div className="row">
+        <div className='col text-end '>
+
+          <Button
+            variant="contained"
+            sx={{
+              marginRight: '10px',
+              textTransform: "none"
+            }} // Adjust the value as needed
+          > + Add customer </Button>
+        </div>
+      </div>
+      <div className="row mt-4 mb-4 d-flex align-center-center justify-center-end">
+        <div className="top col d-flex justify-content-between">
+
+          <h3>Customers</h3>
+
+          <div>
+            <TextField
+              id="outlined-size-small"
+              placeholder="Search customer"
+
+              size="small"
+              sx={{
+                width: '200px',
+                marginRight: "10px"
+              }} // Adjust the width as needed
+
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: 1, }}>
+        <TableContainer sx={{ maxHeight: 500 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {customerData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((customer, index) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    <TableCell align="left">{customer.first_name}</TableCell>
+                    <TableCell align="left">{customer.last_name}</TableCell>
+                    <TableCell align="left">{customer.user.email}</TableCell>
+                    <TableCell align="right">
+
+                        <Chip label={customer.account_status}
+                        sx={{
+                          backgroundColor:"green"
+                        }}
+                        />
+
+                      </TableCell>
+                    <TableCell align="center">{customer.subscription_status}</TableCell>
+                    <TableCell align="right">
+                      
+                        <Chip 
+                        label={customer.status ? 'active' : 'Non active'}
+                        sx={{
+                          backgroundColor:"green"
+                        }}
+                        />
+                      
+                      </TableCell>
+                    <TableCell align="right">{customer.total_domains}</TableCell>
+                    <TableCell align="right">{customer.createdAt}</TableCell>
+                    <TableCell align="right">{customer.updatedAt}</TableCell>
+                    <TableCell align="right">
+                      <Dialog1 customerId={customer.user._id} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={customerData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      {/* </div > */}
+    </>
+  );
+}
+
+{/* <TableBody>
+{customerData
+  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  .map((customer, index) => (
+    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+      {columns.map((column) => (
+        <TableCell key={column.id} align={column.align}>
+          <>
+          {column.id === 'email' ? customer.user.email : customer[column.id]}
+          {column.id === 'status' ? (customer[column.id] === true ? 'active' : 'Non active'):""}
+         
+          </>
+
+        </TableCell>
+      ))}
+      <TableCell key="action" align="right">
+        <Dialog1 customerId={customer.user._id} />
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody> */}

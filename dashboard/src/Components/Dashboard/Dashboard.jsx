@@ -1,12 +1,29 @@
-// import React from 'react'
+import React from 'react'
 import GroupIcon from '@mui/icons-material/Group';
 import DomainIcon from '@mui/icons-material/Domain';
 import DomainDisabledIcon from '@mui/icons-material/DomainDisabled';
-
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 
 function Dashboard() {
+  const [customerData, setCustomerData] = React.useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios.post("http://146.190.164.174:4000/api/customer/get_customers", {}, {
+      headers: {
+        'x-sh-auth': token
+      }
+    })
+      .then(response => {
+        setCustomerData(response.data.customer || []);
+      })
+      .catch(error => {
+        console.error('Error fetching customers:', error);
+      });
+  }, []);
   return (
 
     <>
